@@ -1,0 +1,10 @@
+@use '@scss/_variables.styles.scss' as *;
+
+@mixin icon-button($color: $red-color) {
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+  background-color: $color;
+}

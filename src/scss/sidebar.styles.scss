@@ -1,6 +1,25 @@
+@use "@scss/_mixins.styles.scss" as *;
+@use '@scss/_variables.styles.scss' as *;
+
 .sidebar {
   &__container {
     background: blue;
+    min-height: 100vh;
+    max-width: 256px;
+    border-radius: 28px;
+    padding: 24px;
+  }
+  &__header {
+    display: flex;
+    gap: 8px;
+    & > button:nth-child(1) {
+      @include icon-button($red-color);
+    }
+    & > button:nth-child(2) {
+      @include icon-button($yellow-color);
+    }
+    & > button:nth-child(3) {
+      @include icon-button($green-color);
+    }
   }
 }
-
