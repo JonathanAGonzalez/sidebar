@@ -21,7 +21,9 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@constants/*": ["src/constants/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@assets/*": ["src/assets/*"],
+      "@scss/*": ["src/scss/*"]
     },
 
     /* Linting */
