@@ -19,7 +19,9 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@utils/*": ["src/utils/*"]
     },
 
     /* Linting */

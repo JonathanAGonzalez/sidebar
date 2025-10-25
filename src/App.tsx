@@ -1,8 +1,9 @@
 import { SideBar } from "@components/sidebar.component";
+import { sidebarClasses } from "./constants/sidebar";
 
 function App() {
   return (
-    <div className="container">
+    <div className={sidebarClasses.container}>
       <SideBar />
     </div>
   );
