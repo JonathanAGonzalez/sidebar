@@ -2,7 +2,7 @@ import { SideBar } from "@components/sidebar.component";
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <SideBar />
     </div>
   );
