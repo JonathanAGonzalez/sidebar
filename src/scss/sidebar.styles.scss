@@ -173,9 +173,11 @@
     position: relative;
     justify-content: center;
 
-    &:hover {
-      color: $white-color;
-      background: rgba(255, 255, 255, 0.05);
+    @media (hover: hover) {
+      &:hover {
+        color: $white-color;
+        background: rgba(255, 255, 255, 0.05);
+      }
     }
 
     &--active {
@@ -289,8 +291,10 @@
     border-radius: 6px;
     position: relative;
 
-    &:hover {
-      color: $white-color;
+    @media (hover: hover) {
+      &:hover {
+        color: $white-color;
+      }
     }
 
     &--active {
