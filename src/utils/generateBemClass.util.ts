@@ -13,12 +13,12 @@ export function generateBemClass(
 ): string {
   let className = block;
 
-  // Add element if provided
+  
   if (element) {
     className += `__${element}`;
   }
 
-  // Add modifier if provided
+  
   if (modifier) {
     className += `--${modifier}`;
   }

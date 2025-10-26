@@ -1,73 +1,183 @@
-# React + TypeScript + Vite
+# Sidebar Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un componente de Sidebar moderna y elegante construida con React, TypeScript, y Framer Motion. Incluye animaciones fluidas, modo colapsible, submenús inteligentes con detección de viewport, y un diseño oscuro con gradientes.
 
-Currently, two official plugins are available:
+## 🎨 Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Modo Colapsible**: El sidebar se puede expandir y colapsar con una animación suave
+- **Submenús Inteligentes**: Los tooltips de los submenús detectan el viewport y se posicionan automáticamente
+- **Sin Scroll**: Implementación con `position: fixed` que previene scrolls no deseados
+- **Animaciones Fluidas**: Transiciones suaves usando Framer Motion
+- **Diseño Moderno**: Interfaz oscura con bordes gradientes y efectos visuales
+- **Street Lights**: Decorativos controles estilo macOS en la parte superior
+- **Avatar de Usuario**: Sección de perfil con información del usuario
 
-## React Compiler
+## 🛠️ Tecnologías
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **React 19**: Biblioteca para la interfaz de usuario
+- **TypeScript**: Tipado estático para mayor seguridad
+- **Framer Motion**: Animaciones y transiciones
+- **SASS/SCSS**: Estilos con variables y mixins
+- **Vite**: Build tool ultrarrápido
+- **React Icons**: Biblioteca de iconos
 
-## Expanding the ESLint configuration
+## 📦 Instalación
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+# Clonar el repositorio
+git clone <repository-url>
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Instalar dependencias
+npm install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Ejecutar en desarrollo
+npm run dev
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Construir para producción
+npm run build
+
+# Vista previa de producción
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Estructura del Proyecto
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── assets/           # Imágenes y recursos estáticos
+├── components/       # Componentes React
+│   ├── divider.component.tsx
+│   ├── menu-chevron.component.tsx
+│   ├── menu-item.component.tsx
+│   ├── sidebar-header.component.tsx
+│   ├── sidebar-navigation.component.tsx
+│   ├── sidebar.component.tsx
+│   ├── street-lights.component.tsx
+│   ├── submenu.component.tsx
+│   └── submenu-item.component.tsx
+├── constants/        # Constantes y configuraciones
+│   ├── divider.constants.ts
+│   └── sidebar/
+│       ├── index.ts
+│       └── menu-items.constants.ts
+├── scss/            # Estilos SASS
+│   ├── _divider.variables.scss
+│   ├── _mixins.styles.scss
+│   ├── _variables.styles.scss
+│   ├── divider.styles.scss
+│   └── sidebar.styles.scss
+├── types/           # Definiciones de tipos TypeScript
+│   └── sidebar.ts
+├── utils/           # Utilidades
+│   └── generateBemClass.util.ts
+├── App.tsx          # Componente principal
+├── index.css        # Estilos globales
+└── main.tsx         # Punto de entrada
+```
+
+## 🎯 Características Detalladas
+
+### Sidebar Colapsible
+
+El sidebar puede expandirse (256px) o colapsarse (100px) con un botón toggle. Cuando está colapsado, solo se muestran los iconos. El estado se mantiene con React hooks.
+
+### Submenús Inteligentes
+
+Los submenús utilizan una lógica avanzada de posicionamiento:
+
+- **Detección de Viewport**: Calcula si el submenú cabe en el espacio disponible
+- **Posicionamiento Horizontal**:
+  - Si hay espacio a la derecha, se muestra ahí
+  - Si no hay espacio a la derecha, se muestra a la izquierda
+  - Si no hay espacio en ningún lado, se ajusta para caber
+- **Posicionamiento Vertical**:
+  - Detecta si hay espacio arriba o abajo
+  - Se ajusta automáticamente para no salirse del viewport
+- **Sin Scroll**: Usa `position: fixed` para no generar scrolls en la página
+
+### Iconos del Menú
+
+El sidebar incluye los siguientes elementos de menú:
+
+- **Dashboard**: Con submenús de Activity, Traffic, y Statistic
+- **Invoices**: Gestión de facturas
+- **Wallet**: Gestión de cartera
+- **Notification**: Centro de notificaciones
+
+## 🎨 Personalización
+
+### Colores y Temas
+
+Los colores se definen en `src/scss/_variables.styles.scss`:
+
+```scss
+$dark-red-color-1: #1a0a0e;
+$dark-red-color-2: #2a1119;
+$dark-red-color-3: #3a1824;
+$dark-red-color-4: #4a1f2f;
+$light-red-color: #ff6b9d;
+$red-color: #ff4757;
+$yellow-color: #ffd700;
+$green-color: #2ed573;
+```
+
+### Agregar Nuevos Ítems de Menú
+
+Edita `src/constants/sidebar/menu-items.constants.ts`:
+
+```typescript
+export const menuItems: MenuItem[] = [
+  {
+    name: "Nuevo Item",
+    icon: FiIcono, // De react-icons
+    path: "/ruta",
+    submenu: [
+      // Opcional
+      { name: "Subitem", icon: FiIcono2, path: "/subruta" },
+    ],
+  },
+];
+```
+
+## 🔧 Scripts Disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo
+- `npm run build`: Construye la aplicación para producción
+- `npm run preview`: Previsualiza la build de producción
+- `npm run lint`: Ejecuta el linter
+
+## 📝 Notas de Implementación
+
+### Detección de Viewport
+
+La función `adjustSubmenuPosition()` en `menu-item.component.tsx`:
+
+1. Calcula el espacio disponible en el viewport
+2. Determina si el submenú cabe horizontal y verticalmente
+3. Ajusta la posición usando `position: fixed`
+4. Se actualiza en tiempo real con eventos de resize y scroll
+
+### BEM (Block Element Modifier)
+
+El proyecto utiliza clases BEM para una mejor organización del CSS:
+
+```scss
+.sidebar {
+  &__container {
+  }
+  &__menu {
+    &__item {
+    }
+    &__item--active {
+    }
+  }
+}
+```
+
+## 📄 Licencia
+
+Este proyecto es privado y personal.
+
+## 👤 Autor
+
+Desarrollado como proyecto educativo/demostración de habilidades en React y TypeScript.

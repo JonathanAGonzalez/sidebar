@@ -5,13 +5,17 @@ import type { MenuItem as MenuItemType } from "@typez/sidebar";
 
 interface SidebarNavigationProps {
   menuItems: MenuItemType[];
+  isCollapsed?: boolean;
 }
 
-export const SidebarNavigation = ({ menuItems }: SidebarNavigationProps) => {
-  const [openMenu, setOpenMenu] = useState<string | null>("Dashboard");
+export const SidebarNavigation = ({
+  menuItems,
+  isCollapsed = false,
+}: SidebarNavigationProps) => {
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [activeItem, setActiveItem] = useState("/statistic");
 
-  const handleMenuClick = (path: string) => {
+  const handleMenuClick = (_name: string, path: string) => {
     setActiveItem(path);
   };
 
@@ -21,7 +25,7 @@ export const SidebarNavigation = ({ menuItems }: SidebarNavigationProps) => {
 
   return (
     <nav className={sidebarClasses.nav}>
-      {menuItems.map((item) => (
+      {menuItems.map((item, index) => (
         <MenuItemComponent
           key={item.name}
           name={item.name}
@@ -33,6 +37,8 @@ export const SidebarNavigation = ({ menuItems }: SidebarNavigationProps) => {
           activeSubItem={activeItem}
           onToggle={toggleMenu}
           onItemClick={handleMenuClick}
+          isCollapsed={isCollapsed}
+          index={index}
         />
       ))}
     </nav>

@@ -5,9 +5,11 @@ const BASE_CLASS_NAME = "sidebar";
 export const sidebarClasses = {
   base: BASE_CLASS_NAME,
   container: combineBemClasses(BASE_CLASS_NAME, "container"),
+  toggleButton: combineBemClasses(BASE_CLASS_NAME, "toggle-button"),
   header: combineBemClasses(BASE_CLASS_NAME, "header"),
   avatar: {
     container: combineBemClasses(BASE_CLASS_NAME, "avatar-container"),
+    containerCollapsed: combineBemClasses(BASE_CLASS_NAME, "avatar-container", "collapsed"),
     image: combineBemClasses(BASE_CLASS_NAME, "avatar-image"),
     information: combineBemClasses(BASE_CLASS_NAME, "avatar-information"),
   },
@@ -28,6 +30,7 @@ export const sidebarClasses = {
     submenuItemActive: combineBemClasses(BASE_CLASS_NAME, "submenu-item", "active"),
     submenuItemContent: combineBemClasses(BASE_CLASS_NAME, "submenu-item-content"),
     submenuText: combineBemClasses(BASE_CLASS_NAME, "submenu-text"),
+    submenuIcon: combineBemClasses(BASE_CLASS_NAME, "submenu-icon"),
   },
 };
 
