@@ -1,16 +1,17 @@
 import { SideBar } from "@components/sidebar.component";
+import { StreetLights } from "@components/street-lights.component";
 import { sidebarClasses } from "./constants/sidebar";
+import { Divider } from "@components/divider.component";
+
 import "@scss/sidebar.styles.scss";
+import "@scss/divider.styles.scss";
 
 const App = () => {
   return (
     <div className={sidebarClasses.container}>
-      <div className={sidebarClasses.header}>
-        <button aria-label="minimize"></button>
-        <button aria-label="maximize"></button>
-        <button aria-label="close"></button>
-      </div>
+      <StreetLights />
       <SideBar />
+      <Divider variant="horizontal" size="md" />
     </div>
   );
 };
