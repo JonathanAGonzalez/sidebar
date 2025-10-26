@@ -1,0 +1,37 @@
+@use '@scss/_variables.styles.scss' as *;
+
+$divider-color: $dark-red-color-3;
+$divider-opacity-main: 0.8;
+$divider-opacity-glow: 0.3;
+
+$gradient-divider-horizontal: linear-gradient(
+  90deg,
+  transparent 0%,
+  rgba($divider-color, $divider-opacity-main) 20%,
+  rgba($divider-color, $divider-opacity-main) 80%,
+  transparent 100%
+);
+
+$gradient-divider-horizontal-glow: linear-gradient(
+  90deg,
+  transparent 0%,
+  rgba($divider-color, $divider-opacity-glow) 20%,
+  rgba($divider-color, $divider-opacity-glow) 80%,
+  transparent 100%
+);
+
+$gradient-divider-vertical: linear-gradient(
+  180deg,
+  transparent 0%,
+  rgba($divider-color, $divider-opacity-main) 20%,
+  rgba($divider-color, $divider-opacity-main) 80%,
+  transparent 100%
+);
+
+$gradient-divider-vertical-glow: linear-gradient(
+  180deg,
+  transparent 0%,
+  rgba($divider-color, $divider-opacity-glow) 20%,
+  rgba($divider-color, $divider-opacity-glow) 80%,
+  transparent 100%
+);

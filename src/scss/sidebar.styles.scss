@@ -3,15 +3,29 @@
 
 .sidebar {
   &__container {
-    background: blue;
-    min-height: 100vh;
+    background: $dark-red-color;
+    min-height: 80vh;
     max-width: 256px;
     border-radius: 28px;
     padding: 24px;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: $gradient-primary;
+      border-radius: 28px;
+      z-index: -1;
+    }
   }
   &__header {
     display: flex;
     gap: 8px;
+    margin-bottom: 30px;
     & > button:nth-child(1) {
       @include icon-button($red-color);
     }
@@ -20,6 +34,38 @@
     }
     & > button:nth-child(3) {
       @include icon-button($green-color);
+    }
+  }
+  &__avatar{
+    &-container{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    &-image{
+      background: $light-red-color;
+      border-radius: 50%;
+      height: 48px;
+      width: 48px;
+      position: relative;
+      img{
+        position: absolute;
+
+      }
+
+    }
+    &-information{
+      font-weight: 500;
+      h3{
+        font-size: 11px;
+        color: $gray-color;
+        margin-bottom: 4px;
+      }
+      h2{
+        font-size: 14px;
+        font-weight: 700;
+        color: $white-color;
+      }
     }
   }
 }

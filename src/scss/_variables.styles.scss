@@ -1,3 +1,12 @@
 $red-color: #FF5A52;
 $yellow-color: #E6C02A;
 $green-color: #53C22B;
+$gray-color: #A09D9E;
+$white-color: #FFFFFF;
+$light-red-color: #F2C7BA;
+$dark-red-color: #1F1217;
+$dark-red-color-2: #662525;
+$dark-red-color-3: #B86E9F;
+
+// Gradients
+$gradient-primary: radial-gradient(circle,  $dark-red-color-3 0%, $dark-red-color-2 100%);
