@@ -12,6 +12,7 @@ export const menuItems: MenuItem[] = [
   {
     name: "Dashboard",
     icon: FiGrid,
+    id: 1,
     path: "/dashboard",
     submenu: [
       {
@@ -34,16 +35,19 @@ export const menuItems: MenuItem[] = [
   {
     name: "Invoices",
     icon: FiFile,
+    id: 2,
     path: "/invoices",
   },
   {
     name: "Wallet",
     icon: FiCreditCard,
+    id: 3,
     path: "/wallet",
   },
   {
     name: "Notification",
     icon: FiBell,
+    id: 4,
     path: "/notification",
   },
 ];

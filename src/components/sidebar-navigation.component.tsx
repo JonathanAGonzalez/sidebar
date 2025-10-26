@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { sidebarClasses } from "@constants/sidebar";
-import { MenuItem as MenuItemComponent } from "./menu-item.component";
+import { MenuItem } from "./menu-item.component";
 import type { MenuItem as MenuItemType } from "@typez/sidebar";
 
 interface SidebarNavigationProps {
@@ -25,15 +25,15 @@ export const SidebarNavigation = ({
 
   return (
     <nav className={sidebarClasses.nav}>
-      {menuItems.map((item, index) => (
-        <MenuItemComponent
-          key={item.name}
-          name={item.name}
-          icon={item.icon}
-          path={item.path}
-          submenu={item.submenu}
-          isOpen={openMenu === item.name}
-          isActive={activeItem === item.path}
+      {menuItems.map(({ name, path, id, ...rest }, index) => (
+        <MenuItem
+          key={id}
+          id={id}
+          name={name}
+          path={path}
+          {...rest}
+          isOpen={openMenu === name}
+          isActive={activeItem === path}
           activeSubItem={activeItem}
           onToggle={toggleMenu}
           onItemClick={handleMenuClick}

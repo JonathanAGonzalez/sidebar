@@ -6,24 +6,20 @@ interface SidebarHeaderProps {
 }
 
 export const SidebarHeader = ({ isCollapsed = false }: SidebarHeaderProps) => {
+  const className = isCollapsed
+    ? sidebarClasses.avatar.containerCollapsed
+    : sidebarClasses.avatar.container;
+
   return (
     <header>
-      <div
-        className={
-          isCollapsed
-            ? sidebarClasses.avatar.containerCollapsed
-            : sidebarClasses.avatar.container
-        }
-      >
+      <div className={className}>
         <div className={sidebarClasses.avatar.image}>
-          <img src={avatar} alt="avatar" />
+          <img src={avatar} alt="Jonathan González" />
         </div>
         {!isCollapsed && (
-          <div
-            className={`${sidebarClasses.avatar.information} sidebar__avatar-information--expanded`}
-          >
-            <h3>PRODUCT DESIGNER</h3>
-            <h2>Noel Lozano Kempf</h2>
+          <div className={sidebarClasses.avatar.informationExpanded}>
+            <h3>Frontend Developer</h3>
+            <h2>Jonathan González</h2>
           </div>
         )}
       </div>

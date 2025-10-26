@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { DESIGN_TOKENS } from '../constants/design-tokens';
 
 interface UseMenuItemAnimationsProps {
   index: number;
@@ -43,13 +44,13 @@ export const useMenuItemAnimations = ({
   const motionProps = useMemo(() => ({
     whileHover: { scale: 1.02 },
     whileTap: { scale: 0.98 },
-    transition: { duration: 0.15 },
+    transition: { duration: parseFloat(DESIGN_TOKENS.transitions.duration.fast) },
   }), []);
 
   const containerMotionProps = useMemo(() => ({
     initial: { opacity: 0 },
     animate: { opacity: 1 },
-    transition: { duration: 0.3 },
+    transition: { duration: parseFloat(DESIGN_TOKENS.transitions.duration.normal) },
   }), []);
 
   return {

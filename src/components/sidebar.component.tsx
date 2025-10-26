@@ -1,15 +1,23 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FiChevronLeft } from "react-icons/fi";
 import { Divider } from "./divider.component";
 import { SidebarHeader } from "./sidebar-header.component";
 import { SidebarNavigation } from "./sidebar-navigation.component";
 import { StreetLights } from "./street-lights.component";
 import { menuItems } from "@constants/sidebar";
 import { sidebarClasses } from "@constants/sidebar";
+import { DESIGN_TOKENS } from "@constants/design-tokens";
+import { ButtonWithChevron } from "./button-with-chevron.component";
 
 export const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const sidebarWidth = isCollapsed
+    ? DESIGN_TOKENS.sidebar.width.collapsed
+    : DESIGN_TOKENS.sidebar.width.expanded;
+
+  const isCollapsedRotation = isCollapsed
+    ? DESIGN_TOKENS.rotation.collapsed
+    : DESIGN_TOKENS.rotation.expanded;
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -19,24 +27,20 @@ export const SideBar = () => {
     <motion.div
       className={sidebarClasses.container}
       animate={{
-        width: isCollapsed ? "100px" : "256px",
-        transition: { duration: 0.3, ease: "easeInOut" },
+        width: sidebarWidth,
+        transition: {
+          duration: parseFloat(DESIGN_TOKENS.transitions.duration.normal),
+          ease: DESIGN_TOKENS.transitions.easing.easeInOut,
+        },
       }}
     >
       <StreetLights />
-      <button
-        onClick={toggleCollapse}
-        className={`${sidebarClasses.toggleButton}`}
-      >
-        <FiChevronLeft
-          style={{
-            transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "transform 0.3s ease",
-          }}
-        />
-      </button>
+      <ButtonWithChevron
+        toggleCollapse={toggleCollapse}
+        isCollapsedRotation={isCollapsedRotation}
+      />
       <SidebarHeader isCollapsed={isCollapsed} />
-      {!isCollapsed && <Divider variant="horizontal" size="md" />}
+      <Divider variant="horizontal" size="md" />
       <SidebarNavigation menuItems={menuItems} isCollapsed={isCollapsed} />
     </motion.div>
   );

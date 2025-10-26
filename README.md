@@ -129,12 +129,9 @@ Edita `src/constants/sidebar/menu-items.constants.ts`:
 export const menuItems: MenuItem[] = [
   {
     name: "Nuevo Item",
-    icon: FiIcono, // De react-icons
+    icon: FiIcono,
     path: "/ruta",
-    submenu: [
-      // Opcional
-      { name: "Subitem", icon: FiIcono2, path: "/subruta" },
-    ],
+    submenu: [{ name: "Subitem", icon: FiIcono2, path: "/subruta" }],
   },
 ];
 ```

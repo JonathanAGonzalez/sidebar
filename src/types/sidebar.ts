@@ -5,6 +5,7 @@ export interface SubmenuItem {
 }
 
 export interface MenuItem {
+  id: number;
   name: string;
   icon: React.ElementType;
   path: string;

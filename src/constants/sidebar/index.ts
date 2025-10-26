@@ -12,6 +12,7 @@ export const sidebarClasses = {
     containerCollapsed: combineBemClasses(BASE_CLASS_NAME, "avatar-container", "collapsed"),
     image: combineBemClasses(BASE_CLASS_NAME, "avatar-image"),
     information: combineBemClasses(BASE_CLASS_NAME, "avatar-information"),
+    informationExpanded: combineBemClasses(BASE_CLASS_NAME, "avatar-information", "expanded"),
   },
   nav: combineBemClasses(BASE_CLASS_NAME, "nav"),
   menu: {
