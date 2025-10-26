@@ -1,21 +1,13 @@
 import { sidebarClasses } from "@constants/sidebar";
-import type { MenuItem as MenuItemType } from "@typez/sidebar";
+import type { MenuItemProps } from "@typez/sidebar";
 import { MenuChevron } from "./menu-chevron.component";
 import { Submenu } from "./submenu.component";
-import { createElement, useState, useRef, useEffect } from "react";
+import { createElement, memo, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
+import { useSubmenuPositioning } from "../hooks/useSubmenuPositioning";
+import { useMenuItemAnimations } from "../hooks/useMenuItemAnimations";
 
-interface MenuItemProps extends MenuItemType {
-  isOpen: boolean;
-  isActive: boolean;
-  activeSubItem: string;
-  onToggle: (name: string) => void;
-  onItemClick: (name: string, path: string) => void;
-  isCollapsed?: boolean;
-  index?: number;
-}
-
-export const MenuItem = ({
+const MenuItemComponent = ({
   name,
   icon,
   path,
@@ -28,187 +20,116 @@ export const MenuItem = ({
   isCollapsed = false,
   index = 0,
 }: MenuItemProps) => {
-  const hasSubmenu = !!submenu && submenu.length > 0;
-  const [isHovered, setIsHovered] = useState(false);
-  const [submenuPosition, setSubmenuPosition] = useState<{
-    left?: string;
-    right?: string;
-  }>({});
-  const timeoutRef = useRef<number | null>(null);
-  const submenuRef = useRef<HTMLDivElement>(null);
-  const menuItemRef = useRef<HTMLDivElement>(null);
+  const hasSubmenu = useMemo(() => !!submenu && submenu.length > 0, [submenu]);
 
-  const handleMouseEnter = () => {
-    if (isCollapsed && hasSubmenu) {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      setIsHovered(true);
-    }
-  };
+  const {
+    isHovered,
+    submenuPosition,
+    submenuRef,
+    menuItemRef,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = useSubmenuPositioning({
+    isCollapsed,
+    hasSubmenu,
+  });
 
-  const handleMouseLeave = () => {
-    if (isCollapsed && hasSubmenu) {
-      timeoutRef.current = setTimeout(() => {
-        setIsHovered(false);
-      }, 200);
-    }
-  };
+  const { buttonClassName, animationDelay, motionProps, containerMotionProps } =
+    useMenuItemAnimations({
+      index,
+      isCollapsed,
+      hasSubmenu,
+      isActive,
+    });
 
-  const adjustSubmenuPosition = () => {
-    if (
-      !isCollapsed ||
-      !isHovered ||
-      !submenuRef.current ||
-      !menuItemRef.current
-    )
-      return;
-
-    const submenuRect = submenuRef.current.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const menuItemRect = menuItemRef.current.getBoundingClientRect();
-
-    let newPosition: { left?: string; right?: string } = {};
-    let newTop: string | undefined = undefined;
-
-    let leftPosition = menuItemRect.right + 8;
-
-    if (leftPosition + submenuRect.width > viewportWidth) {
-      if (menuItemRect.left >= submenuRect.width + 16) {
-        leftPosition = menuItemRect.left - submenuRect.width - 8;
-      } else {
-        leftPosition = viewportWidth - submenuRect.width - 8;
-      }
-    }
-
-    if (leftPosition < 8) {
-      leftPosition = 8;
-    }
-
-    newPosition = {
-      left: `${leftPosition}px`,
-      right: undefined,
-    };
-
-    const topPosition = menuItemRect.top;
-
-    if (submenuRect.height + topPosition > viewportHeight) {
-      const availableSpaceAbove = topPosition;
-      const availableSpaceBelow = viewportHeight - topPosition;
-
-      if (
-        submenuRect.height <= availableSpaceAbove &&
-        topPosition >= submenuRect.height
-      ) {
-        newTop = `${menuItemRect.top - submenuRect.height}px`;
-      } else if (availableSpaceBelow >= availableSpaceAbove) {
-        newTop = `${topPosition}px`;
-      } else {
-        newTop = `${viewportHeight - submenuRect.height - 8}px`;
-      }
+  const handleItemClick = useCallback(() => {
+    if (hasSubmenu) {
+      onToggle(name);
     } else {
-      newTop = `${topPosition}px`;
+      onItemClick(name, path);
     }
+  }, [hasSubmenu, onToggle, onItemClick, name, path]);
 
-    setSubmenuPosition(newPosition);
+  const MenuButton = useMemo(
+    () => (
+      <motion.button
+        className={buttonClassName}
+        style={{ animationDelay }}
+        onClick={handleItemClick}
+        {...motionProps}
+        title={isCollapsed ? name : undefined}
+      >
+        <div className={sidebarClasses.menu.icon}>{createElement(icon)}</div>
+        {!isCollapsed && (
+          <span className={sidebarClasses.menu.text}>{name}</span>
+        )}
+        {!isCollapsed && hasSubmenu && <MenuChevron isOpen={isOpen} />}
+      </motion.button>
+    ),
+    [
+      buttonClassName,
+      animationDelay,
+      handleItemClick,
+      motionProps,
+      isCollapsed,
+      name,
+      icon,
+      hasSubmenu,
+      isOpen,
+    ]
+  );
 
-    if (submenuRef.current) {
-      if (newTop !== undefined) {
-        submenuRef.current.style.top = newTop;
-      } else {
-        submenuRef.current.style.top = "";
-      }
-    }
-  };
+  const SubmenuComponent = useMemo(() => {
+    if (!hasSubmenu || !submenu) return null;
 
-  useEffect(() => {
-    if (isHovered && isCollapsed) {
-      setTimeout(adjustSubmenuPosition, 0);
-
-      window.addEventListener("resize", adjustSubmenuPosition);
-      window.addEventListener("scroll", adjustSubmenuPosition, true);
-
-      return () => {
-        window.removeEventListener("resize", adjustSubmenuPosition);
-        window.removeEventListener("scroll", adjustSubmenuPosition, true);
-      };
-    }
-  }, [isHovered, isCollapsed]);
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+    const submenuProps = {
+      items: submenu,
+      activeItem: activeSubItem,
+      onItemClick,
+      isCollapsed,
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave,
     };
-  }, []);
+
+    return (
+      <>
+        {!isCollapsed && isOpen && <Submenu {...submenuProps} />}
+        {isCollapsed && isHovered && (
+          <Submenu
+            ref={submenuRef}
+            {...submenuProps}
+            submenuPosition={submenuPosition}
+          />
+        )}
+      </>
+    );
+  }, [
+    hasSubmenu,
+    submenu,
+    isCollapsed,
+    isOpen,
+    isHovered,
+    activeSubItem,
+    onItemClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    submenuPosition,
+    submenuRef,
+  ]);
 
   return (
     <motion.div
       ref={menuItemRef}
       className={sidebarClasses.menu.group}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
       style={{ position: isCollapsed ? "relative" : "static" }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      {...containerMotionProps}
     >
-      <div className={sidebarClasses.menu.container}>
-        <motion.button
-          className={`${sidebarClasses.menu.item} ${
-            !hasSubmenu && isActive ? sidebarClasses.menu.itemActive : ""
-          } ${!isCollapsed ? "sidebar__menu-item--expanded" : ""}`}
-          style={{
-            animationDelay: !isCollapsed ? `${index * 0.15}s` : "0s",
-          }}
-          onClick={() => {
-            if (hasSubmenu) {
-              onToggle(name);
-            } else {
-              onItemClick(name, path);
-            }
-          }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ duration: 0.15 }}
-          title={isCollapsed ? name : undefined}
-        >
-          <div className={sidebarClasses.menu.icon}>{createElement(icon)}</div>
-          {!isCollapsed && (
-            <span className={sidebarClasses.menu.text}>{name}</span>
-          )}
-          {!isCollapsed && hasSubmenu && <MenuChevron isOpen={isOpen} />}
-        </motion.button>
-      </div>
-
-      {hasSubmenu && submenu && (
-        <>
-          {!isCollapsed && isOpen && (
-            <Submenu
-              items={submenu}
-              activeItem={activeSubItem}
-              onItemClick={onItemClick}
-              isCollapsed={isCollapsed}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            />
-          )}
-          {isCollapsed && isHovered && (
-            <Submenu
-              ref={submenuRef}
-              items={submenu}
-              activeItem={activeSubItem}
-              onItemClick={onItemClick}
-              isCollapsed={isCollapsed}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              submenuPosition={submenuPosition}
-            />
-          )}
-        </>
-      )}
+      <div className={sidebarClasses.menu.container}>{MenuButton}</div>
+      {SubmenuComponent}
     </motion.div>
   );
 };
+
+export const MenuItem = memo(MenuItemComponent);
