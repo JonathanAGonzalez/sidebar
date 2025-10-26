@@ -1,4 +1,12 @@
 # Sidebar Component
+<img width="390" height="844" alt="image" src="https://github.com/user-attachments/assets/ac21ef95-de68-4877-861e-3af1a00965bb" />
+
+<img width="390" height="844" alt="image" src="https://github.com/user-attachments/assets/2724fa93-51c1-4325-9374-f3675aa34852" />
+
+<img width="521" height="945" alt="image" src="https://github.com/user-attachments/assets/94034546-5596-455c-bcf1-01687c676a24" />
+
+
+
 
 Un componente de Sidebar moderna y elegante construida con React, TypeScript, y Framer Motion. Incluye animaciones fluidas, modo colapsible, submenús inteligentes con detección de viewport, y un diseño oscuro con gradientes.
 
@@ -25,19 +33,13 @@ Un componente de Sidebar moderna y elegante construida con React, TypeScript, y 
 
 ```bash
 # Clonar el repositorio
-git clone <repository-url>
+git clone https://github.com/JonathanAGonzalez/sidebar
 
 # Instalar dependencias
 npm install
 
 # Ejecutar en desarrollo
 npm run dev
-
-# Construir para producción
-npm run build
-
-# Vista previa de producción
-npm run preview
 ```
 
 ## 📁 Estructura del Proyecto
@@ -136,12 +138,6 @@ export const menuItems: MenuItem[] = [
 ];
 ```
 
-## 🔧 Scripts Disponibles
-
-- `npm run dev`: Inicia el servidor de desarrollo
-- `npm run build`: Construye la aplicación para producción
-- `npm run preview`: Previsualiza la build de producción
-- `npm run lint`: Ejecuta el linter
 
 ## 📝 Notas de Implementación
 
@@ -171,10 +167,6 @@ El proyecto utiliza clases BEM para una mejor organización del CSS:
 }
 ```
 
-## 📄 Licencia
-
-Este proyecto es privado y personal.
 
 ## 👤 Autor
-
-Desarrollado como proyecto educativo/demostración de habilidades en React y TypeScript.
+Jona 🫡
